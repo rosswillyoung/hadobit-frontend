@@ -1,13 +1,77 @@
+html,
 body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  /* height: 100vh; */
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#task-unchecked {
+  /* border: 3px solid red; */
+}
+
+#task-checked {
+  /* border: 3px solid blue; */
+  text-decoration: line-through;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+#root {
+}
+
+.text-input {
+  border: 0;
+  border-bottom: 1px solid gray;
+  margin: 3px 3px 3px 2vw;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.06);
+  width: 50%;
+}
+
+.text-input:hover {
+  background-color: #fafafa;
+  /* border: 0; */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: 0.3s box-shadow;
+}
+
+.text-input:clicked {
+  border: none;
+}
+
+.text-input:target {
+  border: 0;
+}
+
+
+#task:hover {
+  /* font-size: 1.5em; */
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.checkmark {
+  position: absolute;
+  top: .25em;
+  left: .25em;
+  background-color: #ccc;
+  height: 1em;
+  width: 1em;
+  border-radius: 45%;
+  border: 0;
+  opacity: .5;
+}
+
+.checkmark:hover {
+  background-color: #006600;
+  cursor: pointer;
+}
+
+.hide {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
