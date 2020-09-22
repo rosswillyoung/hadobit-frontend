@@ -1,4 +1,7 @@
-html,
+html {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   /* height: 100vh; */
@@ -14,19 +17,30 @@ body {
 #task-checked {
   /* border: 3px solid blue; */
   text-decoration: line-through;
-  visibility: hidden;
-  height: 0;
-  width: 0;
 }
 
 #root {
+}
+
+#task-input {
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+}
+
+#true {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .text-input {
   border: 0;
   border-bottom: 1px solid gray;
   margin: 3px 3px 3px 2vw;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.06);
+  /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.06); */
   width: 50%;
 }
 
@@ -37,13 +51,6 @@ body {
   transition: 0.3s box-shadow;
 }
 
-.text-input:clicked {
-  border: none;
-}
-
-.text-input:target {
-  border: 0;
-}
 
 
 #task:hover {

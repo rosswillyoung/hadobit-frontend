@@ -20,7 +20,7 @@ class TaskOnly extends React.Component {
             }}
           ></span>
         </div>
-        <div className="col-sm-10 text-center">{this.props.task}</div>
+        <div className="col-sm-10 text-center" id={this.props.completed ? "task-checked" : "task-unchecked"}>{this.props.task}</div>
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default class Task extends React.Component {
       cssid: "task-unchecked",
     };
     // if (this.state.subtasks == null) {
-    //   this.state.subtasks = [].concat(this.props.subtasks);
+    //   this.state.subtasks = [].concat(this.props.subtasks)d
     // } else {
     //   this.state.subtasks = this.state.subtasks.split(", ");
     // }
@@ -87,7 +87,7 @@ export default class Task extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: this.state.id }),
     };
-    await fetch(this.subtaskURL + "complete", requestOpts);
+    await fetch("/tasks/complete", requestOpts);
     this.props.refresh();
     // console.log("checkbox clicked");
   }
@@ -106,6 +106,7 @@ export default class Task extends React.Component {
               this.handleCheckbox();
               this.componentDidMount();
             }}
+            completed={this.state.completed}
           />
           {this.state.subtasks.map((subtask) => (
             <SubTasks
@@ -119,7 +120,7 @@ export default class Task extends React.Component {
       );
     } else {
       return (
-        <div className="" id={this.state.cssid}>
+        <div className={this.props.className} id={this.state.cssid}>
           <TaskOnly
             task={this.state.task}
             handleClick={() => {
@@ -130,6 +131,7 @@ export default class Task extends React.Component {
               this.handleCheckbox();
               this.componentDidMount();
             }}
+            completed={this.state.completed}
           />
         </div>
       );

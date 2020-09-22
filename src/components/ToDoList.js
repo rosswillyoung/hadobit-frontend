@@ -7,30 +7,8 @@ export default class ToDoList extends React.Component {
     this.state = { value: "", tasks: [], user_id: "", apiUrl: "/tasks/today"};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.componentDidMount = this.componentDidMount.bind(this);
-    // this.addTaskToState = this.addTaskToState.bind(this);
   }
 
-  async componentWillMount() {
-    this.setState({ value: "", tasks: [] });
-    const response = await fetch(this.state.apiUrl);
-    const data = await response.json();
-    this.setState({ data: data });
-    this.state.data.map((data) =>
-      this.setState({ tasks: this.state.tasks.concat(data) })
-    );
-    console.log(this.state.tasks);
-  }
-
-  async fetchData() {
-    this.setState({ value: "", tasks: [] });
-    const response = await fetch(this.state.apiUrl);
-    const data = await response.json();
-    this.setState({ data: data });
-    this.state.data.map((data) =>
-      this.setState({ tasks: this.state.tasks.concat(data) })
-    );
-  }
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
@@ -45,14 +23,14 @@ export default class ToDoList extends React.Component {
     };
     const response = await fetch(this.state.apiUrl, requestOptions).then((res) => res.json()).then(data => console.log(data.passport.user));
     this.setState({ value: "" });
-    this.componentWillMount();
+    this.props.taskUpdate();
     // DataLoader.componentWillMount();
   }
 
   render() {
     return (
       <div
-        className="container col-lg-6 card mb-3 p-3 bg-light rounded shadow-sm"
+        className="container col-lg-5 mb-3 p-3 bg-light rounded shadow-sm"
         id="tasklist"
         // style={{marginTop: 25 + 'vh'}}
       >
@@ -61,7 +39,7 @@ export default class ToDoList extends React.Component {
             <h1 className="header text-center bg-dark text-white rounded jumbotron">
               Today
             </h1>
-            {this.state.tasks.map((task) => (
+            {this.props.tasks.map((task) => (
               <Task
                 key={task._id}
                 id={task._id}
@@ -69,9 +47,7 @@ export default class ToDoList extends React.Component {
                 date={task.date}
                 completed={task.completed}
                 subtasks={task.subtasks}
-                refresh={() => {
-                  this.fetchData();
-                }}
+                taskUpdate={this.props.taskUpdate}
                 clicked={this.state.taskClicked}
               />
               // console.log(task)
@@ -79,19 +55,16 @@ export default class ToDoList extends React.Component {
           </div>
           {/* <DataLoader addTaskToState={this.addTaskToState} /> */}
         </div>
-        <div className="col-lg-12 text-center bg-light w-100">
-          <div className="">
             <form onSubmit={this.handleSubmit}>
               <input
                 type="text"
                 value={this.state.value}
                 onChange={this.handleChange}
                 name="task"
-                className="text-input w-75"
+                className="text-input"
+                id="task-input"
               />
             </form>
-          </div>
-        </div>
       </div>
     );
   }

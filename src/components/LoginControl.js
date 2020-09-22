@@ -1,8 +1,7 @@
 import React from "react";
-import ToDoList from "./ToDoList.js";
 import Register from "./Register.js";
 import Login from "./Login.js";
-import Week from "./Week.js";
+import Main from "./Main";
 
 export default class LoginControl extends React.Component {
   constructor(props) {
@@ -33,7 +32,7 @@ export default class LoginControl extends React.Component {
   render() {
     const isLoggedIn = this.state.isLoggedIn;
     if (isLoggedIn) {
-      return <ToDoList />;
+      return <Main />
     } else if (this.state.isRegistered) {
       return <Login onLogin={this.handleLogin} onRegisterClick={this.handleRegisterClick}/>;
     } else {
