@@ -42,6 +42,7 @@ export default class Week extends React.Component {
                               this.props.taskUpdate
                             }
                             clicked={this.state.taskClicked}
+                            accessToken={this.props.accessToken}
                           />
                     )})}
                   </div>

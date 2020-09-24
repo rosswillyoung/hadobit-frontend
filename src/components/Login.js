@@ -1,4 +1,5 @@
 import React from "react";
+import ls from 'local-storage';
 // import axios from "axios";
 
 export default class Login extends React.Component {
@@ -12,13 +13,13 @@ export default class Login extends React.Component {
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
-  async componentWillMount() {
+  async componentDidMount() {
     const response = await fetch("/users/login");
     const data = await response.json();
-    if (data.user) {
-      this.props.onLogin(data.user);
-    }
-    console.log(data);
+    // if (data.user) {
+    //   this.props.onLogin(data.user);
+    // }
+    // console.log(data);
   }
   handleUsernameChange(event) {
     this.setState({
@@ -49,10 +50,10 @@ export default class Login extends React.Component {
         requestOptions
       );
       const data = await response.json();
-      console.log(response);
-      if (data.loggedIn) {
-        console.log(data);
-        this.props.onLogin(data.user);
+      if (data.accessToken) {
+        this.props.onLogin(data.user, data.accessToken);
+        ls.set('accessToken', data.accessToken);
+        console.log(ls.get('accessToken'))
       }
     }
     catch(err) {

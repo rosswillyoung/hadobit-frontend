@@ -4,9 +4,10 @@ import Task from "./Task.js";
 export default class ToDoList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", tasks: [], user_id: "", apiUrl: "/tasks/today"};
+    this.state = { value: "", user_id: "", apiUrl: "/tasks/today"};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTaskUpdate = this.handleTaskUpdate.bind(this);
   }
 
   handleChange(event) {
@@ -14,17 +15,21 @@ export default class ToDoList extends React.Component {
   }
 
   async handleSubmit(event) {
-    this.setState({ tasks: [] });
     event.preventDefault();
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+                  "Authorization": "Bearer " +this.props.accessToken},
       body: JSON.stringify({ task: this.state.value }),
     };
-    const response = await fetch(this.state.apiUrl, requestOptions).then((res) => res.json()).then(data => console.log(data.passport.user));
+    const response = await fetch("tasks/today", requestOptions);
     this.setState({ value: "" });
     this.props.taskUpdate();
     // DataLoader.componentWillMount();
+  }
+
+  handleTaskUpdate() {
+    this.props.taskUpdate()
   }
 
   render() {
@@ -47,8 +52,8 @@ export default class ToDoList extends React.Component {
                 date={task.date}
                 completed={task.completed}
                 subtasks={task.subtasks}
-                taskUpdate={this.props.taskUpdate}
-                clicked={this.state.taskClicked}
+                taskUpdate={this.handleTaskUpdate}
+                accessToken={this.props.accessToken}
               />
               // console.log(task)
             ))}

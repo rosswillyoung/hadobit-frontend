@@ -10,14 +10,10 @@ class TaskOnly extends React.Component {
         onClick={this.props.handleClick}
       >
         <div className="col-sm-1">
-          <input
-            className="hide"
-            type="checkbox"
-          />
           <span className="checkmark"
-            onClick={() => {
-              this.props.handleCheckbox();
-            }}
+            onClick={
+              this.props.handleCheckbox
+            }
           ></span>
         </div>
         <div className="col-sm-10 text-center" id={this.props.completed ? "task-checked" : "task-unchecked"}>{this.props.task}</div>
@@ -31,7 +27,6 @@ export default class Task extends React.Component {
     super(props);
     this.state = {
       clicked: false,
-      checked: false,
       id: props.id,
       task: props.task,
       date: props.date,
@@ -50,19 +45,16 @@ export default class Task extends React.Component {
     this.subtaskURL = "/subtasks/";
   }
   componentDidMount() {
-    if (this.state.completed === "True") {
-      this.setState({
-        checked: true,
-        cssid: "task-checked",
-      });
-    }
   }
   async addSubtask(event, value) {
     event.preventDefault();
     // console.log("poop");
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + this.props.accessToken
+       },
       body: JSON.stringify({
         id: this.state.id,
         subtask: value,
@@ -84,11 +76,15 @@ export default class Task extends React.Component {
     // event.preventDefault();
     const requestOpts = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + this.props.accessToken
+              },
       body: JSON.stringify({ id: this.state.id }),
     };
     await fetch("/tasks/complete", requestOpts);
-    this.props.refresh();
+    // this.setState({completed: true})
+    console.log('task completed;')
+    this.props.taskUpdate();
     // console.log("checkbox clicked");
   }
 
@@ -99,13 +95,9 @@ export default class Task extends React.Component {
           <TaskOnly
             task={this.state.task}
             handleClick={() => {
-              // this.props.clicked = !this.props.clicked;
               this.setState({ clicked: !this.state.clicked });
             }}
-            handleCheckbox={() => {
-              this.handleCheckbox();
-              this.componentDidMount();
-            }}
+            handleCheckbox={this.handleCheckbox}
             completed={this.state.completed}
           />
           {this.state.subtasks.map((subtask) => (
@@ -127,10 +119,8 @@ export default class Task extends React.Component {
               // this.props.clicked = !this.props.clicked;
               this.setState({ clicked: !this.state.clicked });
             }}
-            handleCheckbox={() => {
-              this.handleCheckbox();
-              this.componentDidMount();
-            }}
+            handleCheckbox={this.handleCheckbox}
+
             completed={this.state.completed}
           />
         </div>
